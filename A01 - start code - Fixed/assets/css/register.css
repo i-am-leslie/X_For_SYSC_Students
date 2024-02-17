@@ -1,0 +1,85 @@
+.content{
+    
+    display: flex;
+    
+}
+
+nav tr{
+    font-size: 15px;
+    height: 30px;
+    
+}
+nav table{
+    border: solid 1pt black;
+    padding-bottom: 690px;
+    text-align: center;
+    padding-right: 30px;
+    padding-left: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 20px;
+    height: auto;
+    background-color: rgb(219, 216, 216);
+    width: 150px;
+}
+.nav2{
+    width: 200px;
+    background-color: rgb(219, 216, 216);
+    margin: 18px;
+    
+}
+section{
+ width: 1000px;  
+ margin-top: 10px;
+ margin-left: 5px;
+}
+.form{
+    background-color: rgb(219, 216, 216);
+    width: 1000px;  
+}
+.form table{
+    width: 1000px;  
+}
+.profile{
+    font-size: 21.6px;
+    background-color: #919191;
+    height: 27.2px;
+    color: #f0f0f0;
+    border: solid 1px black;
+    text-transform: uppercase;
+    width: 100%;
+    margin-bottom: 5px;
+    padding: 5px 0;
+}
+
+button{
+    margin-left: 10px;
+}
+
+.nav2 img{
+    display: block;
+    width: 60%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+.nav2 table{
+    width: 100px;
+    margin: 0 auto;
+}
+.nav2 td, .nav2 p {
+    text-align: center; 
+}
+.avatar{
+    display: flex;
+    
+}
+.avatar img{
+    display: block;
+    border-radius: 50%;
+    width: 10%;
+}
+button{
+    margin-top: 10px;
+}
+
