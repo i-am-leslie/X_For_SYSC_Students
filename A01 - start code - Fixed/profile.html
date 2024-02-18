@@ -6,7 +6,7 @@
    <title>Update SYSCX profile</title>
    <link rel="stylesheet" href="assets/css/reset.css">
    <link rel="stylesheet" href="assets/css/style.css">
-   <link rel="stylesheet" href="assets/css/register.css">
+   <link rel="stylesheet" href="assets/css/main.css">
 
 </head>
 
@@ -21,7 +21,7 @@
          <table>
             <tbody>
                 <tr>
-                    <td><a href="">Home</a></td>
+                    <td><a href="index.html">Home</a></td>
                 </tr>
                 <tr>
                     <td><a href="profile.html">Profile</a></td>
@@ -43,9 +43,10 @@
          <form>
             <fieldset>
                <legend><span>Personal information</span></legend>
-
             </fieldset>
          </form>
+
+          <!--This is the section for the form to be submitted -->
          <form  class="form" action="https://ramisabouni.com/sysc4504/process_profile.php" method="post">
             <table>
                <tr>
@@ -85,12 +86,26 @@
                   <td colspan="3">
                      <p>Choose your Avatar</p><br> 
                      <div class="avatar">
-                        
-                        <input type="radio" name="avatar" id="" > <img src="images/img_avatar1.png" alt="text">
-                        <input type="radio" name="avatar" id="" > <img src="images/img_avatar2.png" alt="text">
-                        <input type="radio" name="avatar" id="" > <img src="images/img_avatar3.png" alt="text">
-                        <input type="radio" name="avatar" id="" > <img src="images/img_avatar4.png" alt="text">
-                        <input type="radio" name="avatar" id="" > <img src="images/img_avatar5.png" alt="text">
+                        <label>
+                           <input type="radio" name="avatar" value="img_avatar1.png">
+                           <img src="images/img_avatar1.png" alt="Avatar 1">
+                       </label>
+                       <label>
+                           <input type="radio" name="avatar" value="img_avatar2.png">
+                           <img src="images/img_avatar2.png" alt="Avatar 2">
+                       </label>
+                       <label>
+                           <input type="radio" name="avatar" value="img_avatar3.png">
+                           <img src="images/img_avatar3.png" alt="Avatar 3">
+                       </label>
+                       <label>
+                           <input type="radio" name="avatar" value="img_avatar4.png">
+                           <img src="images/img_avatar4.png" alt="Avatar 4">
+                       </label>
+                       <label>
+                           <input type="radio" name="avatar" value="img_avatar5.png">
+                           <img src="images/img_avatar5.png" alt="Avatar 5">
+                       </label>
                      </div>
 
                   </td>
@@ -100,12 +115,14 @@
          </form>
       </section>
    </main>
+
+   <!-- This is the div section for the second nav beside the page -->
    <div class="nav2">
       <table>
          <tbody>
             <tr><td><p>First Last Name</p></td></tr>
             <tr><td><p><img src="images/img_avatar2.png" alt="profile image"></p> </td></tr>
-            <tr><td><p>Email: student@cmail.carleton</p></td></tr>
+            <tr><td><p>Email: <a href="">student@cmail.carleton</a></p></td></tr>
             <tr><td><p>Program: <br> Computer <br> Systems <br> Engineering  </p></td></tr>
          </tbody>
       </table>    

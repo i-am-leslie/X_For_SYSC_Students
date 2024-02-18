@@ -1,13 +1,10 @@
 .content{
-    
     display: flex;
-    
 }
 
 nav tr{
     font-size: 15px;
-    height: 30px;
-    
+    height: 30px;   
 }
 nav table{
     border: solid 1pt black;
@@ -19,7 +16,7 @@ nav table{
     margin: 20px;
     height: auto;
     background-color: rgb(219, 216, 216);
-    width: 150px;
+    width: 170px;
 }
 .nav2{
     width: 200px;
@@ -74,12 +71,37 @@ button{
     display: flex;
     
 }
-.avatar img{
+.avatar label{
     display: block;
     border-radius: 50%;
     width: 10%;
 }
+.avatar label {
+    display: inline-block; /* This makes the label behave like a block but fit inline */
+    margin-right: 10px; /* Adds some space between the radio-image pairs */
+}
+
+.avatar input[type="radio"] {
+    vertical-align: middle; /* Aligns the radio buttons vertically with the images */
+    margin-right: 5px; /* Adds some space between the radio button and the image */
+}
+
+.avatar img {
+    vertical-align: middle; /* Aligns the images vertically with the radio buttons */
+    /* You might want to add width and height properties to make the images look consistent */
+    width: 50px; /* Example width */
+    height: auto; /* To keep the aspect ratio */
+}
 button{
     margin-top: 10px;
+}
+.post td{
+    border: 1px solid black;
+    width: auto;   
+    padding:20px;
+}
+.text table{
+    width: 1000px;
+    background-color: #e8e8e8;
 }
 

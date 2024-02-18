@@ -3,9 +3,10 @@
 
 <head>
    <meta charset="utf-8">
-   <title>Register on SYSCX</title>
+   <title>SYSC - Main</title>
    <link rel="stylesheet" href="assets/css/reset.css">
    <link rel="stylesheet" href="assets/css/style.css">
+   <link rel="stylesheet" href="assets/css/main.css">
 </head>
 
 <body>
@@ -14,22 +15,86 @@
       <p>Social media for SYSC students in Carleton University</p>
    </header>
    <div>
+   <div class="content">
    <nav>
+      <div class="nav">
+         <table>
+            <tbody>
+                <tr>
+                    <td><a href="index.html">Home</a></td>
+                </tr>
+                <tr>
+                    <td><a href="profile.html">Profile</a></td>
+                </tr>
+                <tr>
+                    <td><a href="register.html">Register</a></td>
+                </tr>
+                <tr>
+                    <td><a href="">Log Out</a></td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+   </nav>
    </nav>
    <main>
       <section>
-         <h2>Register a new profile</h2>
          <form>
             <fieldset>
                <legend>
-                  <span>Personal information</span>
+                  <span>NEW POST</span>
                </legend>
-
             </fieldset>
          </form>
       </section>
+      <form class="text" action="https://ramisabouni.com/sysc4504/process_index.php" method="post">
+         <table>
+            <tbody>
+               <tr>
+                  <td><p><textarea name="new_post" id="" cols="50" rows="5">what is happening?! (max character 200)</textarea> <br>
+                     <button type="submit">Post</button> <button type="reset">Reset</button></p></td>
+               </tr>
+               
+               
+            </tbody>
+            
+         </table>
+      </form>
+
+      <!-- This is the section for the post created -->
+      <section class="post">
+         <table>
+            <tbody>
+               <tr>
+                  <td><p>Post 1  <br>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur laborum cum nemo voluptatum a necessitatibus eligendi animi odit, sit voluptas illo quisquam ipsum molestiae nesciunt, mollitia quidem fugiat cupiditate ad?</p></td>
+               </tr>
+               <tr>
+                  <td><p>Post 2  <br>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur laborum cum nemo voluptatum a necessitatibus eligendi animi odit, sit voluptas illo quisquam ipsum molestiae nesciunt, mollitia quidem fugiat cupiditate ad?</p></td>
+               </tr>
+               <tr>
+                  <td><p>Post 3  <br>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur laborum cum nemo voluptatum a necessitatibus eligendi animi odit, sit voluptas illo quisquam ipsum molestiae nesciunt, mollitia quidem fugiat cupiditate ad?</p></td>
+               </tr>
+            </tbody>
+         </table>
+      </section>
+      
    </main>
+   <!-- This is the div section for the second nav beside the page -->
+   <div class="nav2">
+      <table>
+         <tbody>
+            <tr><td><p>First Last Name</p></td></tr>
+            <tr><td><p><img src="images/img_avatar2.png" alt="profile image"></p> </td></tr>
+            <tr><td><p>Email: <a href="">student@cmail.carleton</a></p></td></tr>
+            <tr><td><p>Program: <br> Computer <br> Systems <br> Engineering  </p></td></tr>
+         </tbody>
+      </table>    
    </div>
+   </div>
+</div>
 </body>
 
 </html>
