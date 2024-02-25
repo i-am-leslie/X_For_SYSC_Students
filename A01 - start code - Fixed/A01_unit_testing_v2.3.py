@@ -19,7 +19,8 @@ pip3 install mysql-connector-python
 Run the code and your grade will be shown in the terminal.
 
 Author: Dr. Rami Sabouni, Systems and Computer Engineering, Carleton University
-Version 2.1: February 13, 2024
+Version 2.3: 8:50PM February 17, 2024
+Edit: Fixed bug that was not displaying which tests had failed.
 """
 
 from selenium import webdriver
@@ -163,7 +164,7 @@ if __name__ == "__main__":
             # Testing register.html
             try:
                 # open page in a browser
-                driver = webdriver.Firefox()  # change this to Chrome if you don't have Firefox
+                driver = webdriver.Chrome()  # change this to Chrome if you don't have Firefox
 
                 driver.get(directory + file)
                 driver.implicitly_wait(10)
@@ -193,6 +194,9 @@ if __name__ == "__main__":
                     elif test:
                         print("testing field {0}: {1}".format(item[0], unit_test(
                             partial(results, content_start[i] + item[1])[0], content_start[i] + item[1])))
+                    else:
+                        print("testing field {0}: Fail".format(item[0]))
+                        num_fail += 1
                     i += 1
 
                 print("In register.html:\n\t Number of tests {0}: {1} passed and {2} failed.".format(
@@ -206,10 +210,11 @@ if __name__ == "__main__":
             driver.close()
 
         elif "profile.html" in file:
+            num_pass=1
             # Testing profile.html
             try:
                 # open page in a browser
-                driver = webdriver.Firefox()  # change this to Chrome if you don't have Firefox
+                driver = webdriver.Chrome()  # change this to Chrome if you don't have Firefox
 
                 driver.get(directory + file)
                 profile_fields = {"first_name": "john", "last_name": "snow", "DOB": "001011-10-10", "street_number": "1234", "street_name": "colonel", "city": "The North",
@@ -241,6 +246,9 @@ if __name__ == "__main__":
                     elif test:
                         print("testing field {0}: {1}".format(item[0], unit_test(
                             partial(results, content_start[i] + item[1])[0], content_start[i] + item[1])))
+                    else:
+                        print("testing field {0}: Fail".format(item[0]))
+                        num_fail += 1
                     i += 1
 
                 print("In profile.html:\n\t Number of tests {0}: {1} passed and {2} failed.".format(
@@ -256,7 +264,7 @@ if __name__ == "__main__":
         elif "index.html" in file:
             # Testing index.html
             try:
-                driver = webdriver.Firefox()  # change this to Chrome if you don't have Firefox
+                driver = webdriver.Chrome()  # change this to Chrome if you don't have Firefox
 
                 print(directory + file)
                 driver.get(directory + file)
@@ -281,6 +289,9 @@ if __name__ == "__main__":
                     if test:
                         print("testing field {0}: {1}".format(item[0], unit_test(
                             partial(results, content_start + item[1])[0], content_start + item[1])))
+                    else:
+                        print("testing field {0}: Fail".format(item[0]))
+                        num_fail += 1
                 print("In index.php:\n\t Number of tests {0}: {1} passed and {2} failed.".format(
                     num_pass+num_fail, num_pass, num_fail))
             except:
