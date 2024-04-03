@@ -57,10 +57,10 @@
                </tr>
                <tr>
                    <td colspan="3"><label >Email addess</label><input type="email" name="student_email">  <br> 
-                       <label > Program</label>
+                       <label > Program:</label>
                        <select name="program" id="program">
                            <option value="">Choose Program</option>
-                           <option value="Computer Systems Engineering ">Computer Systems Engineering</option>
+                           <option value="Computer Systems Engineering">Computer Systems Engineering</option>
                            <option value="Software Engineering">Software Engineering</option>
                            <option value="Communications Engineering">Communications Engineering</option>
                            <option value="Biomedical and Electrical">Biomedical and Electrical</option>
@@ -92,19 +92,27 @@
          $dob=$_POST["DOB"];
          $student_email=$_POST["student_email"];
          $program=$_POST["program"];
-         //first query to insert inmto user_info 
-         $sql = "INSERT INTO users_info VALUES (NULL, '$student_email', '$first_name', '$last_name', '$dob');";
+
+         //first query to insert inmto user_info
+         $sql = "INSERT INTO users_info  (student_email, first_name, last_name, dob) VALUES ( ?, ?, ?, ?);";
+         $stmt = $mysqli->prepare($sql);
+         $stmt->bind_param("ssss", $student_email, $first_name,$last_name,$dob );
 
             //excecutes first query 
-         if($mysqli->query($sql )){
+         if($stmt->execute()){
             //gets the last inserted user_id
             $query2= "SELECT LAST_INSERT_ID() AS student_id";
-            $result=$mysqli->query($query2);
+            $stmt = $mysqli->prepare($query2);
+            $stmt->execute();
             //gets the row 
+            $result = $stmt->get_result();
             $row = $result->fetch_assoc();
-
             //gets the id from the result fetched 
-            $student_Id = $row['student_id'];
+            $student_id = $row['student_id'];
+            $stmt->close();
+         
+            
+   
          
 
             //inserts into the other tables through a multi query appproach 

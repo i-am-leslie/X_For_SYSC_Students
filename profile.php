@@ -73,8 +73,8 @@
                   <td colspan="3"> <label >Email address <input  id="email" type="email" name="student_email"></label></td>
               </tr>
               <tr>
-               <td colspan="3"><label > Program</label>
-                  <select name="program" id="program">
+               <td colspan="3"><label  > Program</label>
+                  <select id="program" name="program" >
                      <option value="">Choose Program</option>
                      <option value="Computer Systems Engineering">Computer Systems Engineering</option>
                      <option value="Software Engineering">Software Engineering</option>

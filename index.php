@@ -50,8 +50,8 @@
          <table>
             <tbody>
                <tr>
-                  <td><p><textarea name="new_post"  cols="50" rows="5"></textarea> <br>
-                     <button type="submit" name="post">Post</button> <button type="reset">Reset</button></p></td>
+                  <td><p><textarea name="new_post"  cols="50" rows="5"> </textarea> <br>
+                     <button id="post" type="submit" name="post">Post</button> <button type="reset">Reset</button></p></td>
                </tr>
                
                
@@ -64,46 +64,53 @@
       <?php
     require "connection.php";
     $mysqli = new mysqli($server_name, $username, $password, $database_name);
-    try{
-       if(isset($_POST["post"])){
-          $new_post=$_POST["new_post"];
-         
- 
-          //query to get the last added user 
-          $query2= "SELECT MAX(student_id) AS student_id FROM users_info";
-          $result=$mysqli->query($query2);
+    if ($mysqli->connect_error) {
+      die("Connection failed: " . $mysqli->connect_error);
+  }
+  
+  try {
+      if (isset($_POST["post"])) {
+          $new_post = $_POST["new_post"];
+  
+          // Query to get the last added user
+          $query2 = "SELECT MAX(student_id) AS student_id FROM users_info";
+          $stmt = $mysqli->prepare($query2);
+          $stmt->execute();
+          $result = $stmt->get_result();
           $row = $result->fetch_assoc();
           $student_id = $row['student_id'];
-      
-         //Query insert the post 
-          $sql = "INSERT INTO users_posts VALUES (NULL, '$student_id','$new_post', NOW() );";
- 
-          
-          if ($mysqli->query($sql)) {
-            echo "Posted successfully.<br>"; 
-        
-            $sql = "SELECT * FROM users_posts WHERE student_id = '$student_id' ORDER BY post_date DESC LIMIT 5";
-            $result2 = $mysqli->query($sql); 
-        
-            echo "<div id='posts_section'>";
-            if ($result2->num_rows > 0) {
-                while ($row = $result2->fetch_assoc()) {
-                    echo "<details open>
-                            <summary>Post " . $row["post_id"] . "</summary>
-                            <p>" . $row["new_post"] . "</p>
-                          </details>";
-                }
-            }
-            echo "</div>";
-        }
-        
-         
- 
-        
-       }
-       // Close the connection
-       $mysqli->close();
- 
+          $stmt->close();
+  
+          // Query to insert the post
+          $sql = "INSERT INTO users_posts (student_id, new_post, post_date) VALUES (?, ?, NOW())";
+          $stmt = $mysqli->prepare($sql);
+          $stmt->bind_param("is", $student_id, $new_post);
+          if ($stmt->execute()) {
+              echo "Posted successfully.<br>";
+  
+              // Query to select recent posts
+              $sql = "SELECT * FROM users_posts WHERE student_id = ? ORDER BY post_date DESC LIMIT 5";
+              $stmt2 = $mysqli->prepare($sql);
+              $stmt2->bind_param("i", $student_id);
+              $stmt2->execute();
+              $result2 = $stmt2->get_result();
+  
+              echo "<div id='posts_section'>";
+              while ($row = $result2->fetch_assoc()) {
+                  echo "<details open>
+                          <summary>Post " . $row["post_id"] . "</summary>
+                          <p>" . $row["new_post"] . "</p>
+                        </details>";
+              }
+              echo "</div>";
+  
+              $stmt2->close();
+          }
+          $stmt->close();
+      }
+  
+      // Close the connection
+      $mysqli->close();
     }catch(mysqli_sql_exception $e){
        // catches any error that results from the database 
         echo $e->getMessage();
