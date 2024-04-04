@@ -153,65 +153,107 @@
          $avatar=$_POST["avatar"];
 
          //query to get the last added user 
-         $query2= "SELECT MAX(student_id) AS student_id FROM users_info";
-         $result=$mysqli->query($query2);
+         $query2 = "SELECT MAX(student_id) AS student_id FROM users_info";
+         $stm = $mysqli->prepare($query2);
+         
+         // Since there are no parameters to bind, we can directly execute the statement
+         $stm->execute();
+         
+         // Get the result of the query
+         $result = $stm->get_result();
+         
+         // Fetch the associative array from the result
          $row = $result->fetch_assoc();
+         
+         // Extract the student_id
          $student_id = $row['student_id'];
 
          //query to update users info 
-         $sql = "UPDATE users_info SET first_name='$first_name', last_name='$last_name', dob='$dob', student_email='$email' WHERE student_id='$student_id';";
+         $sql = "UPDATE users_info SET first_name='$first_name', last_name='$last_name', dob='$dob', student_email='$email' WHERE student_id=?;";
+         $stm=$mysqli->prepare($sql);
+         $stm->bind_param('i', $student_id);
 
-            
-         if($mysqli->query($sql )){
+         // Updates the student info after they have registered 
+         if( $stm->execute()){
             
             //inserts into the other tables through a multi query appproach 
-            $sql2 = "UPDATE users_avatar SET avatar='$avatar' WHERE student_id='$student_id';";
-            $sql2 .= "UPDATE users_address SET street_number='$street_number', street_name='$street_name', city='$city', province='$province', postal_vcode='$postal_vcode' WHERE student_id='$student_id';";
-            $sql2 .= "UPDATE users_program SET Program='$program' WHERE student_id='$student_id';";
-            $mysqli->multi_query($sql2);
+            $sql2 = "UPDATE users_avatar SET avatar=? WHERE student_id=?;";
+            $stm2=$mysqli->prepare($sql2);
+            $stm2->bind_param('ii',$avatar, $student_id);
+            $stm2->execute();
+
+            $sql3= "UPDATE users_address SET street_number='$street_number', street_name='$street_name', city='$city', province='$province', postal_vcode='$postal_vcode' WHERE student_id=?;";
+            $stm3=$mysqli->prepare($sql3);
+            $stm3->bind_param('i',$student_id);
+            $stm3->execute();
+
+            $sql4= "UPDATE users_program SET Program='$program' WHERE student_id=?;";
+            $stm4=$mysqli->prepare($sql4);
+            $stm4->bind_param('i',$student_id);
+            $stm3->execute();
          }
  
       }else{
          //Query to get the most recent id
-         $query2= "SELECT MAX(student_id) AS student_id FROM users_info";
-         $result=$mysqli->query($query2);
+         $query2 = "SELECT MAX(student_id) AS student_id FROM users_info";
+         $stmt = $mysqli->prepare($query2);
+         $stmt->execute();
+         $result = $stmt->get_result();
          $row = $result->fetch_assoc();
          $student_id = $row['student_id'];
+         
+
         
          //gets all the neccessary information from the user_info database table to update the fields in the DOM
-         $sql = "SELECT first_name, last_name, dob,student_email FROM users_info WHERE student_id='$student_id';";
-         $result2=$mysqli->query($sql);
+         $sql = "SELECT first_name, last_name, dob, student_email FROM users_info WHERE student_id = ?";
+         $stmt1 = $mysqli->prepare($sql);
+         $stmt1->bind_param("i", $student_id);
+         $stmt1->execute();
+         $result2 = $stmt1->get_result();
          $row = $result2->fetch_assoc();
          $first_name = $row['first_name'];
          $last_name = $row['last_name'];
          $dob = $row['dob'];
-         $email=$row['student_email'];
+         $email = $row['student_email'];
+
          
 
          //gets all the neccessary information from the user_address database table to update the fields in the DOM
-         $sql2 = "SELECT street_number, street_name, city,province, postal_vcode FROM users_address WHERE student_id='$student_id';";
-         $user_address=$mysqli->query($sql2);
+         $sql2 = "SELECT street_number, street_name, city, province, postal_vcode FROM users_address WHERE student_id = ?";
+         $stmt2 = $mysqli->prepare($sql2);
+         $stmt2->bind_param("i", $student_id);
+         $stmt2->execute();
+         $user_address = $stmt2->get_result();
          $row = $user_address->fetch_assoc();
          $street_number = $row['street_number'];
          $street_name = $row['street_name'];
          $city = $row['city'];
          $province = $row['province'];
          $postal_vcode = $row['postal_vcode'];
+
    
 
 
          //gets all the neccessary information from the user_progranm database tableto update the fields in the DOM 
-         $sql3 = "SELECT Program FROM  users_program WHERE student_id='$student_id';";
-         $programs=$mysqli->query($sql3);
-         $row = $user_address->fetch_assoc();
+         $sql3 = "SELECT Program FROM users_program WHERE student_id = ?";
+         $stmt3 = $mysqli->prepare($sql3);
+         $stmt3->bind_param("i", $student_id);
+         $stmt3->execute();
+         $programs = $stmt3->get_result();
+         $row = $programs->fetch_assoc();
          $program = $row['Program'];
 
 
+
          //gets all the neccessary information from the user_avatar database to update the fields in the DOM
-         $sql4 = "SELECT avatar FROM users_avatar WHERE student_id='$student_id';";
-         $avartars=$mysqli->query($sql4);
-         $row = $avartars->fetch_assoc();
+         $sql4 = "SELECT avatar FROM users_avatar WHERE student_id = ?";
+         $stmt4 = $mysqli->prepare($sql4);
+         $stmt4->bind_param("i", $student_id);
+         $stmt4->execute();
+         $avatars = $stmt4->get_result();
+         $row = $avatars->fetch_assoc();
          $avatar = $row['avatar'];
+
       }
 
       // Close the connection

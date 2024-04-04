@@ -1,3 +1,15 @@
+<?php
+	//Start a new session
+	session_start();
+	//Set the session duration for 5 seconds
+	$expiryTime = 180;
+	//Check the session start time is set or not
+	if(!isset($_SESSION['start'])){
+		//Set the session start time
+    	$_SESSION['start'] = time();
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -84,6 +96,7 @@
    // connects to the database 
    require "connection.php";
    $mysqli = new mysqli($server_name, $username, $password, $database_name);
+  
 
    try{
       if(isset($_POST["register"])){
@@ -116,10 +129,27 @@
          
 
             //inserts into the other tables through a multi query appproach 
-            $query3="INSERT INTO users_program (student_id, Program) VALUES (' $student_Id ', '$program');";
-            $query3.="INSERT INTO users_avatar (student_id, avatar) VALUES ('$student_Id ', NULL);";
-            $query3.="INSERT INTO users_address (student_id, street_number,street_name,city,province,postal_vcode) VALUES ('$student_Id ', '0',NULL,NULL,NULL,NULL);";
-            $mysqli->multi_query($query3);
+            $query3="INSERT INTO users_program (student_id, Program) VALUES (?, ?);";
+            $query4="INSERT INTO users_avatar (student_id, avatar) VALUES (? , NULL);";
+            $query5="INSERT INTO users_address (student_id, street_number,street_name,city,province,postal_vcode) VALUES (? , '0',NULL,NULL,NULL,NULL);";
+            
+            // Query to insert into users_program table 
+            $stmt1 = $mysqli->prepare($query3);
+            $stmt1->bind_param("is", $student_id, $program);
+            $stmt1->execute();
+
+            // Query to insert into users_avatar table 
+            $stmt2 = $mysqli->prepare($query4);
+            $stmt2->bind_param("i", $student_id);
+            $stmt2->execute();
+
+            // Query to insert into users_address table 
+            $stmt3 = $mysqli->prepare($query5);
+            $stmt3->bind_param("i", $student_id);
+            $stmt3->execute();
+
+
+         
             // Close the connection
             $mysqli->close();
 
