@@ -32,6 +32,9 @@
          <table>
             <tbody>
                 <tr>
+                    <td><a href="index.php">Home</a></td>
+                </tr>
+                <tr>
                     <td><a href="register.php">Register</a></td>
                 </tr>
                 <tr>
@@ -109,15 +112,22 @@
 
          // condition to check if the email exists 
          if($row){
-            echo".$checkpassword.";
-
             $checkpassword="SELECT password FROM `users_passwords` WHERE student_id=?";
             $st=$mysqli->prepare($checkpassword);
-            $st->bind_param("s", $student_id);
+            $st->bind_param("i", $student_id);
             $st->execute();
             $result2 = $st->get_result(); 
             $row2=$result2->fetch_assoc();
             $hash_password= $row2['password'];
+
+            //get the permission of the user 
+            $checkpermission="SELECT account_type FROM `users_permissions` WHERE student_id=?";
+            $st1=$mysqli->prepare($checkpermission);
+            $st1->bind_param("i", $student_id);
+            $st1->execute();
+            $result3 = $st1->get_result(); 
+            $row3=$result3->fetch_assoc();
+            $permission= $row3['account_type'];
 
             echo "Checking password...";
             if(password_verify($password, $hash_password)){
@@ -125,7 +135,11 @@
                 //puts the student id on session global 
                 $_SESSION["StudentNumber"] = $student_id;
                 $_SESSION['loggedin'] = true;
+                $_SESSION['permission'] = $permission;
+                echo $_SESSION['permission'];
                 $stmt->close();
+                $st->close();  
+                $st1->close();  
                 header("location:index.php");
                 exit();
 

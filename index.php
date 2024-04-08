@@ -35,7 +35,7 @@
    <div>
    <div class="content">
    <nav>
-      <div class="nav">
+   <div class="nav">
          <table>
             <tbody>
                 <tr>
@@ -44,11 +44,11 @@
                 <tr>
                     <td><a href="profile.php">Profile</a></td>
                 </tr>
-                <!-- <tr>
-                    <td><a href="register.php">Register</a></td>
-                </tr> -->
                 <tr>
                     <td><a href="logout.php">Log Out</a></td>
+                </tr>
+                <tr>
+                    <td><a  id="users_list"href="users_list.php"></a></td>
                 </tr>
             </tbody>
         </table>
@@ -163,4 +163,13 @@
    </div>
 </div>
 </body>
+<script type='text/javascript'>
+						// const inputControl = document.querySelectorAll("input, select");
+						console.log("<?php echo $_SESSION['permission']; ?>");
+                  const permission=  "<?php echo $_SESSION['permission']; ?>";
+						if (permission=="0"){
+                     const users_list=document.querySelector("#users_list");
+                     users_list.textContent="Users List";
+                  }
+					</script>
 </html>

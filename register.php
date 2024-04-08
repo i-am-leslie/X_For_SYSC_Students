@@ -31,12 +31,12 @@
       <div class="nav">
          <table>
             <tbody>
-                <!-- <tr>
+                 <tr>
                     <td><a href="index.php">Home</a></td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td><a href="profile.php">Profile</a></td>
-                </tr> -->
+                </tr>  -->
                 <tr>
                     <td><a href="register.php">Register</a></td>
                 </tr>
@@ -150,7 +150,7 @@
                $query4="INSERT INTO users_avatar (student_id, avatar) VALUES (? , NULL);";
                $query5="INSERT INTO users_address (student_id, street_number,street_name,city,province,postal_vcode) VALUES (? , '0',NULL,NULL,NULL,NULL);";
                $query6="INSERT INTO users_passwords (student_id, password) VALUES (? , ?);";
-               $query7="INSERT INTO users_permissions (student_id, account_type) VALUES (? , ?);";
+               $query7="INSERT INTO users_permissions (student_id, account_type) VALUES (? , 1);";
             
                // Query to insert into users_program table 
                $stmt1 = $mysqli->prepare($query3);
@@ -173,9 +173,9 @@
                $stmt4->execute();
 
                // Query to insert into users_permissions table 
-               //  $stmt5 = $mysqli->prepare($query7);
-               //  $stmt5->bind_param("ii", $student_id,1);
-               //  $stmt5->execute();
+               $stmt5 = $mysqli->prepare($query7);
+               $stmt5->bind_param("i", $student_id);
+               $stmt5->execute();
 
          }
             // Close the connection

@@ -3,6 +3,7 @@
 	//Start a new session
 	session_start();
 
+
    if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
       // User is not logged in, redirect to login page
       header('Location: login.php');
@@ -44,11 +45,11 @@
                 <tr>
                     <td><a href="profile.php">Profile</a></td>
                 </tr>
-                <!-- <tr>
-                    <td><a href="register.php">Register</a></td>
-                </tr> -->
                 <tr>
                     <td><a href="logout.php">Log Out</a></td>
+                </tr>
+                <tr>
+                    <td><a  id="users_list"href="users_list.php"></a></td>
                 </tr>
             </tbody>
         </table>
@@ -162,6 +163,7 @@
       } else if (isset($_SESSION['StudentNumber'])){
          echo "<p>Current session exists.</p>";
          echo "<p><strong>Studnet Number is: </strong>" .$_SESSION["StudentNumber"]. "</p>";
+         echo $_SESSION['permission'];
       }
       ?>
 
@@ -327,7 +329,18 @@
       });
    </script>";
 
+   
+
 
 ?>
+               <script type='text/javascript'>
+						// const inputControl = document.querySelectorAll("input, select");
+						console.log("<?php echo $_SESSION['permission']; ?>");
+                  const permission=  "<?php echo $_SESSION['permission']; ?>";
+						if (permission=="0"){
+                     const users_list=document.querySelector("#users_list");
+                     users_list.textContent="Users List";
+                  }
+					</script>
 <script src="assets/js/loggedin.js"></script>
 </html>
