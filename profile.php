@@ -44,9 +44,9 @@
                 <tr>
                     <td><a href="profile.php">Profile</a></td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td><a href="register.php">Register</a></td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td><a href="logout.php">Log Out</a></td>
                 </tr>

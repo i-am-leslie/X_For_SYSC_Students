@@ -1,3 +1,14 @@
+<?php
+    // Start the session
+    session_start();
+
+    // Remove all session variables
+    session_unset();
+
+    // Destroy the session
+    session_destroy();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,12 +31,12 @@
       <div class="nav">
          <table>
             <tbody>
-                <tr>
+                <!-- <tr>
                     <td><a href="index.php">Home</a></td>
                 </tr>
                 <tr>
                     <td><a href="profile.php">Profile</a></td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td><a href="register.php">Register</a></td>
                 </tr>
