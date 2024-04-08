@@ -39,3 +39,18 @@ CREATE TABLE users_posts(
     post_date TIMESTAMP NOT NULL,
     FOREIGN KEY (student_id) REFERENCES users_info(student_id)
 );
+
+--  users password 
+CREATE TABLE users_passwords (
+    student_id INT(10),
+    password VARCHAR(255)NOT NULL,
+    PRIMARY KEY (student_id),
+    FOREIGN KEY (student_id) REFERENCES users_info(student_id)
+);
+
+CREATE TABLE users_permissions (
+    student_id INT(10),
+    account_type INT(1)NOT NULL,
+    PRIMARY KEY (student_id),
+    FOREIGN KEY (student_id) REFERENCES users_info(student_id)
+);

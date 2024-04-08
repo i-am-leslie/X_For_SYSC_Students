@@ -1,3 +1,21 @@
+<?php
+   
+	//Start a new session
+	session_start();
+
+   if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+      // User is not logged in, redirect to login page
+      header('Location: login.php');
+      exit; // Ensure script execution ends here
+   }
+	//Set the session duration for 3 minutes
+	$expiryTime = 180;
+	//Check the session start time is set or not
+	if(!isset($_SESSION['start'])){
+		//Set the session start time
+    	$_SESSION['start'] = time();
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,7 +48,7 @@
                     <td><a href="register.php">Register</a></td>
                 </tr>
                 <tr>
-                    <td><a href="">Log Out</a></td>
+                    <td><a href="logout.php">Log Out</a></td>
                 </tr>
             </tbody>
         </table>
@@ -59,6 +77,21 @@
             
          </table>
       </form>
+      <?php
+      //Check the session is expired or not
+      if (isset($_SESSION['start']) && (time() - $_SESSION['start'] > $expiryTime)) {
+         //Unset the session variables
+         session_unset();
+         //Destroy the session
+         session_destroy();
+         echo "Session is expired.<br/>";
+         header("Location: login.php");
+      } else if (isset($_SESSION['StudentNumber'])){
+         echo "<p><strong>Studnet Number is: </strong>" .$_SESSION["StudentNumber"]. "</p>";
+      }
+      ?>
+
+
 
       <!-- This is the section for the post created -->
       <?php
@@ -69,17 +102,12 @@
   }
   
   try {
-      if (isset($_POST["post"])) {
+      if (isset($_POST["post"]) && isset($_SESSION['StudentNumber']) ) {
           $new_post = $_POST["new_post"];
   
-          // Query to get the last added user
-          $query2 = "SELECT MAX(student_id) AS student_id FROM users_info";
-          $stmt = $mysqli->prepare($query2);
-          $stmt->execute();
-          $result = $stmt->get_result();
-          $row = $result->fetch_assoc();
-          $student_id = $row['student_id'];
-          $stmt->close();
+          // Gets the studnet number from session 
+          $student_id = $_SESSION["StudentNumber"];
+         
   
           // Query to insert the post
           $sql = "INSERT INTO users_posts (student_id, new_post, post_date) VALUES (?, ?, NOW())";
@@ -107,6 +135,8 @@
               $stmt2->close();
           }
           $stmt->close();
+      }else if (!isset($_SESSION['StudentNumber'])){
+         header("location:login.php");
       }
   
       // Close the connection

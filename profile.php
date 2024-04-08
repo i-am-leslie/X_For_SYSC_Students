@@ -1,3 +1,22 @@
+<?php
+   
+	//Start a new session
+	session_start();
+
+   if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+      // User is not logged in, redirect to login page
+      header('Location: login.php');
+      exit; // Ensure script execution ends here
+  }
+	//Set the session duration for 5 seconds
+	$expiryTime = 180;
+	//Check the session start time is set or not
+	if(!isset($_SESSION['start'])){
+		//Set the session start time
+    	$_SESSION['start'] = time();
+    }
+   
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +26,6 @@
    <link rel="stylesheet" href="assets/css/reset.css">
    <link rel="stylesheet" href="assets/css/style.css">
    <link rel="stylesheet" href="assets/css/main.css">
-   <script src="assets/js/updateField.js"></script>
 </head>
 
 <body>
@@ -30,7 +48,7 @@
                     <td><a href="register.php">Register</a></td>
                 </tr>
                 <tr>
-                    <td><a href="">Log Out</a></td>
+                    <td><a href="logout.php">Log Out</a></td>
                 </tr>
             </tbody>
         </table>
@@ -123,15 +141,30 @@
    <div class="nav2">
       <table>
          <tbody>
-            <tr><td><p>First Last Name</p></td></tr>
-            <tr><td><p><img src="images/img_avatar2.png" alt="profile image"></p> </td></tr>
-            <tr><td><p>Email: <a href="">student@cmail.carleton</a></p></td></tr>
-            <tr><td><p>Program: <br> Computer <br> Systems <br> Engineering  </p></td></tr>
+            <tr><td id="first_last"> </td></tr>
+            <tr><td><p id="profile_pic"><img src="images/img_avatar2.png" alt="profile image"></p> </td></tr>
+            <tr><td id="student_email"></a></p></td></tr>
+            <tr><td id="program_input"></td></tr>
          </tbody>
       </table>    
    </div>
 </div>
 </body>
+<?php
+      //Check the session is expired or not
+      if (isset($_SESSION['start']) && (time() - $_SESSION['start'] > $expiryTime)) {
+         //Unset the session variables
+         session_unset();
+         //Destroy the session
+         session_destroy();
+         echo "Session is expired.<br/>";
+         header("Location: login.php");
+      } else if (isset($_SESSION['StudentNumber'])){
+         echo "<p>Current session exists.</p>";
+         echo "<p><strong>Studnet Number is: </strong>" .$_SESSION["StudentNumber"]. "</p>";
+      }
+      ?>
+
 <?php
   
 
@@ -139,7 +172,12 @@
    require "connection.php";
    $mysqli = new mysqli($server_name, $username, $password, $database_name);
    try{
-      if(isset($_POST["submit"])){
+ 
+      if (!isset($_SESSION['StudentNumber'])){
+         header("location:login.php");
+         exit; // Stop script execution
+      }
+      else if(isset($_POST["submit"])){
          $first_name=$_POST["first_name"];
          $last_name=$_POST["last_name"];
          $dob=$_POST["DOB"];
@@ -152,21 +190,10 @@
          $program=$_POST["program"];
          $avatar=$_POST["avatar"];
 
-         //query to get the last added user 
-         $query2 = "SELECT MAX(student_id) AS student_id FROM users_info";
-         $stm = $mysqli->prepare($query2);
          
-         // Since there are no parameters to bind, we can directly execute the statement
-         $stm->execute();
          
-         // Get the result of the query
-         $result = $stm->get_result();
-         
-         // Fetch the associative array from the result
-         $row = $result->fetch_assoc();
-         
-         // Extract the student_id
-         $student_id = $row['student_id'];
+         // Extract the student_id from the session 
+         $student_id = $_SESSION["StudentNumber"];
 
          //query to update users info 
          $sql = "UPDATE users_info SET first_name='$first_name', last_name='$last_name', dob='$dob', student_email='$email' WHERE student_id=?;";
@@ -193,14 +220,10 @@
             $stm3->execute();
          }
  
-      }else{
-         //Query to get the most recent id
-         $query2 = "SELECT MAX(student_id) AS student_id FROM users_info";
-         $stmt = $mysqli->prepare($query2);
-         $stmt->execute();
-         $result = $stmt->get_result();
-         $row = $result->fetch_assoc();
-         $student_id = $row['student_id'];
+      }
+      else{
+         //Gets the student id from the session 
+         $student_id =$_SESSION["StudentNumber"];
          
 
         
@@ -306,4 +329,5 @@
 
 
 ?>
+<script src="assets/js/loggedin.js"></script>
 </html>
