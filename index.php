@@ -120,7 +120,7 @@
               echo "Posted successfully.<br>";
   
               // Query to select recent posts
-              $sql = "SELECT * FROM users_posts WHERE student_id = ? ORDER BY post_date DESC LIMIT 5";
+              $sql = "SELECT * FROM users_posts WHERE student_id = ? ORDER BY post_date DESC LIMIT 10";
               $stmt2 = $mysqli->prepare($sql);
               $stmt2->bind_param("i", $student_id);
               $stmt2->execute();
@@ -143,6 +143,24 @@
           $stmt->close();
       }else if (!isset($_SESSION['StudentNumber'])){
          header("location:login.php");
+      }else{
+         // Query to select recent posts
+         $student_id = $_SESSION["StudentNumber"];
+         $sql = "SELECT * FROM users_posts WHERE student_id = ? ORDER BY post_date DESC LIMIT 10";
+         $stmt2 = $mysqli->prepare($sql);
+         $stmt2->bind_param("i", $student_id);
+         $stmt2->execute();
+         $result2 = $stmt2->get_result();
+
+         echo "<div id='posts_section'>";
+         while ($row = $result2->fetch_assoc()) {
+             echo "<details open>
+                     <summary>Post " . $row["post_id"] . "</summary>
+                     <p>" . $row["new_post"] . "</p>
+                   </details>";
+         }
+         echo "</div>";
+         
       }
   
       // Close the connection

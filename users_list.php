@@ -10,7 +10,7 @@
       exit; // Ensure script execution ends here
   }
 	//Set the session duration for 5 seconds
-	$expiryTime = 180;
+	$expiryTime = 600;
 	//Check the session start time is set or not
 	if(!isset($_SESSION['start'])){
 		//Set the session start time
