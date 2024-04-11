@@ -15,6 +15,7 @@
 		//Set the session start time
     	$_SESSION['start'] = time();
     }
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -100,13 +101,15 @@
     if ($mysqli->connect_error) {
       die("Connection failed: " . $mysqli->connect_error);
   }
-  
+
   try {
+   
       if (isset($_POST["post"]) && isset($_SESSION['StudentNumber']) ) {
           $new_post = $_POST["new_post"];
   
           // Gets the studnet number from session 
           $student_id = $_SESSION["StudentNumber"];
+
          
   
           // Query to insert the post
@@ -131,6 +134,9 @@
                         </details>";
               }
               echo "</div>";
+            
+
+
   
               $stmt2->close();
           }
@@ -153,17 +159,16 @@
    <div class="nav2">
       <table>
          <tbody>
-            <tr><td><p>First Last Name</p></td></tr>
-            <tr><td><p><img src="images/img_avatar2.png" alt="profile image"></p> </td></tr>
-            <tr><td><p>Email: <a href="">student@cmail.carleton</a></p></td></tr>
-            <tr><td><p>Program: <br> Computer <br> Systems <br> Engineering  </p></td></tr>
+            <tr><td id="first_last"> </td></tr>
+            <tr><td><p ><img id="profile_pic" src="images/img_avatar2.png" alt="profile image"></p> </td></tr>
+            <tr><td id="student_email"></a></p></td></tr>
+            <tr><td id="program_input"></td></tr>
          </tbody>
       </table>    
    </div>
-   </div>
 </div>
 </body>
-<script type='text/javascript'>
+               <script type='text/javascript'>
 						// const inputControl = document.querySelectorAll("input, select");
 						console.log("<?php echo $_SESSION['permission']; ?>");
                   const permission=  "<?php echo $_SESSION['permission']; ?>";
@@ -171,5 +176,39 @@
                      const users_list=document.querySelector("#users_list");
                      users_list.textContent="Users List";
                   }
-					</script>
+                  // Listen for changes on any radio button with the name 'avatar'
+                  
+                  const changeAvatar = "images/img_avatar" + (Number("<?php echo $_SESSION['avatar']; ?>") + 1) + ".png";
+                  console.log(changeAvatar);
+                  document.querySelector("#profile_pic").src=changeAvatar;
+
+
+                  let  first_last=document.querySelector("#first_last");
+
+                  // For first and last name 
+                  const text=document.createTextNode("<?php echo $_SESSION['first_name']; ?>"+" " + "<?php echo $_SESSION['last_name']; ?>");
+                  const p = document.createElement("p");
+                  p.appendChild(text);
+                  first_last.appendChild(p);
+                  console.log(first_last);
+
+                  let emailplacement= document.querySelector("#student_email");
+
+                   // email
+                  const text1=document.createTextNode("Email:" + " "+ "<?php echo $_SESSION['email']; ?>");
+                  const p1 = document.createElement("p");
+                  p1.appendChild(text1);
+                  emailplacement.appendChild(p1);
+                  console.log(text1);
+
+                  let programinput=document.querySelector("#program_input");
+
+                  const text2=document.createTextNode("Program:" +" " + "<?php echo $_SESSION['Program']; ?>");
+                  const p2 = document.createElement("p");
+                  p2.appendChild(text2);
+                  programinput.appendChild(p2);
+                  console.log(text2);
+
+                  
+            	</script>
 </html>

@@ -29,7 +29,4 @@ document.addEventListener('DOMContentLoaded', function(e) {
     p2.appendChild(text2);
     programinput.appendChild(p2);
     console.log(text2);
-
-    //avatar
-
 })

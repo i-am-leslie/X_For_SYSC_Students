@@ -109,23 +109,23 @@
                      <p>Choose your Avatar</p><br> 
                      <div id="avatar">
                         <label>
-                           <input type="radio" name="avatar" value="0">
+                           <input id="0" type="radio" name="avatar" value="0">
                            <img src="images/img_avatar1.png" alt="Avatar 1">
                        </label>
                        <label>
-                           <input type="radio" name="avatar" value="1">
+                           <input id="1" type="radio" name="avatar" value="1">
                            <img src="images/img_avatar2.png" alt="Avatar 2">
                        </label>
                        <label>
-                           <input type="radio" name="avatar" value="2">
+                           <input id="2" type="radio" name="avatar" value="2">
                            <img src="images/img_avatar3.png" alt="Avatar 3">
                        </label>
                        <label>
-                           <input type="radio" name="avatar" value="3">
+                           <input id="3" type="radio" name="avatar" value="3">
                            <img src="images/img_avatar4.png" alt="Avatar 4">
                        </label>
                        <label>
-                           <input type="radio" name="avatar" value="4">
+                           <input id="4" type="radio" name="avatar" value="4">
                            <img src="images/img_avatar5.png" alt="Avatar 5">
                        </label>
                      </div>
@@ -143,7 +143,7 @@
       <table>
          <tbody>
             <tr><td id="first_last"> </td></tr>
-            <tr><td><p id="profile_pic"><img src="images/img_avatar2.png" alt="profile image"></p> </td></tr>
+            <tr><td><p ><img id="profile_pic" src="images/img_avatar2.png" alt="profile image"></p> </td></tr>
             <tr><td id="student_email"></a></p></td></tr>
             <tr><td id="program_input"></td></tr>
          </tbody>
@@ -341,6 +341,11 @@
                      const users_list=document.querySelector("#users_list");
                      users_list.textContent="Users List";
                   }
-					</script>
+                  // Listen for changes on any radio button with the name 'avatar'
+                  
+                  const changeAvatar = "images/img_avatar" + (Number("<?php echo $_SESSION['avatar']; ?>") + 1) + ".png";
+                  console.log(changeAvatar);
+                  document.querySelector("#profile_pic").src=changeAvatar;
+            	</script>
 <script src="assets/js/loggedin.js"></script>
 </html>

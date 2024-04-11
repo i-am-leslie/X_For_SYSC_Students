@@ -108,6 +108,32 @@
         $result = $stmt->get_result(); 
         $row=$result->fetch_assoc();
         $student_id = $row['student_id'];
+
+        //gets all the neccessary information from the user_info database table to update the fields in the DOM
+        $sql = "SELECT first_name, last_name, dob, student_email FROM users_info WHERE student_id = ?";
+        $stmt1 = $mysqli->prepare($sql);
+        $stmt1->bind_param("i", $student_id);
+        $stmt1->execute();
+        $result2 = $stmt1->get_result();
+        $row = $result2->fetch_assoc();
+        $first_name = $row['first_name'];
+        $last_name = $row['last_name'];
+        $email = $row['student_email'];
+        $_SESSION["first_name"]=$first_name;
+        $_SESSION["last_name"]=$last_name;
+        $_SESSION["email"]=$email;
+
+        //gets all the neccessary information from the user_info database table to update the fields in the DOM
+        $sql2 = "SELECT Program FROM users_program WHERE student_id = ?";
+        $stm = $mysqli->prepare($sql2);
+        $stm->bind_param("i", $student_id);
+        $stm->execute();
+        $result3 = $stm->get_result();
+        $ro = $result3->fetch_assoc();
+        $program = $ro['Program'];
+        $_SESSION["Program"]=$program;
+
+
         
 
          // condition to check if the email exists 
@@ -129,6 +155,16 @@
             $row3=$result3->fetch_assoc();
             $permission= $row3['account_type'];
 
+            // gets the users avatar picture to store in the session 
+           
+            $profile="SELECT avatar FROM `users_avatar` WHERE student_id=?";
+            $st2=$mysqli->prepare($profile);
+            $st2->bind_param("i", $student_id);
+            $st2->execute();
+            $result4 = $st2->get_result(); 
+            $row4=$result4->fetch_assoc();
+            $profilepic= $row4['avatar'];
+
             echo "Checking password...";
             if(password_verify($password, $hash_password)){
                 echo "Password verified successfully.";
@@ -136,7 +172,7 @@
                 $_SESSION["StudentNumber"] = $student_id;
                 $_SESSION['loggedin'] = true;
                 $_SESSION['permission'] = $permission;
-                echo $_SESSION['permission'];
+                $_SESSION['avatar'] = $profilepic;
                 $stmt->close();
                 $st->close();  
                 $st1->close();  
@@ -161,6 +197,7 @@
    }
    
 ?>
+
 
 </body>
 
